@@ -1,0 +1,65 @@
+{
+    "display_url": "pic.twitter.com\/31JoMS50ha",
+    "expanded_url": "http:\/\/twitter.com\/twitter\/status\/560070183650213889\/video\/1",
+    "features": {},
+    "id": 5.6007013197639e+17,
+    "id_str": "560070131976392705",
+    "indices": [
+        110,
+        132
+    ],
+    "media_url": "http:\/\/pbs.twimg.com\/ext_tw_video_thumb\/560070131976392705\/pu\/img\/TcG_ep5t-iqdLV5R.jpg",
+    "media_url_https": "https:\/\/pbs.twimg.com\/ext_tw_video_thumb\/560070131976392705\/pu\/img\/TcG_ep5t-iqdLV5R.jpg",
+    "sizes": {
+        "large": {
+            "h": 576,
+            "resize": "fit",
+            "w": 1024
+        },
+        "medium": {
+            "h": 337,
+            "resize": "fit",
+            "w": 600
+        },
+        "small": {
+            "h": 191,
+            "resize": "fit",
+            "w": 340
+        },
+        "thumb": {
+            "h": 150,
+            "resize": "crop",
+            "w": 150
+        }
+    },
+    "type": "video",
+    "url": "http:\/\/t.co\/31JoMS50ha",
+    "video_info": {
+        "aspect_ratio": [
+            16,
+            9
+        ],
+        "duration_millis": 30033,
+        "variants": [
+            {
+                "bitrate": 2176000,
+                "content_type": "video\/mp4",
+                "url": "https:\/\/video.twimg.com\/ext_tw_video\/560070131976392705\/pu\/vid\/1280x720\/c4E56sl91ZB7cpYi.mp4"
+            },
+            {
+                "bitrate": 320000,
+                "content_type": "video\/mp4",
+                "url": "https:\/\/video.twimg.com\/ext_tw_video\/560070131976392705\/pu\/vid\/320x180\/nXXsvs7vOhcMivwl.mp4"
+            },
+            {
+                "bitrate": 832000,
+                "content_type": "video\/mp4",
+                "url": "https:\/\/video.twimg.com\/ext_tw_video\/560070131976392705\/pu\/vid\/640x360\/vmLr5JlVs2kBLrXS.mp4"
+            },
+            {
+                "content_type": "application\/x-mpegURL",
+                "url": "https:\/\/video.twimg.com\/ext_tw_video\/560070131976392705\/pu\/pl\/r1kgzh5PmLgium3-.m3u8"
+            }
+        ]
+    }
+}

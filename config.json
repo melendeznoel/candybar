@@ -1,0 +1,14 @@
+{
+    "Twitter": {
+        "Url": "api.twitter.com",
+        "Version": "1.1",
+        "TokenUrl": "/oauth2/token",
+        "ConsumerKey": "<ADD>",
+        "ConsumerSecret": "<ADD>",
+        "AccessToken": "<ADD>",
+        "AccessTokenSecret": "<ADD>",
+        "GrantType": "client_credentials",
+        "Handle": "<ADD>",
+        "HandleId": <ADD>
+    }
+}
