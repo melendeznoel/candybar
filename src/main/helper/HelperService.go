@@ -4,11 +4,9 @@ import (
 	"log"
 	"net/http"
 	"time"
-
-	"github.com/gorilla/mux"
 )
 
-//Logger will log a request info
+// Logger will log a request info
 func Logger(handler http.Handler, name string) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		start := time.Now()
@@ -19,21 +17,27 @@ func Logger(handler http.Handler, name string) http.Handler {
 	})
 }
 
-// BuildRouter registers a Router and Routes
-func BuildRouter(routes Routes) *mux.Router {
-	router := mux.NewRouter().StrictSlash(true)
+// BuildRouter registers routes with the standard library mux.
+// Method matching is enforced inside the wrapped handler.
+func BuildRouter(routes Routes) *http.ServeMux {
+	router := http.NewServeMux()
 
 	for _, route := range routes {
+		route := route
+
 		var handler http.Handler
 
-		handler = route.HandlerFunction
-		handler = Logger(handler, route.Name)
+		handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != route.Method {
+				w.WriteHeader(http.StatusMethodNotAllowed)
+				return
+			}
 
-		router.
-			Methods(route.Method).
-			Path(route.Pattern).
-			Name(route.Name).
-			Handler(handler)
+			route.HandlerFunction(w, r)
+		})
+
+		handler = Logger(handler, route.Name)
+		router.Handle(route.Pattern, handler)
 	}
 
 	return router

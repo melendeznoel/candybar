@@ -1,20 +1,20 @@
 # candybar
 
-A Go HTTP API deployed to Google App Engine (flexible environment). It bundles a few unrelated feature areas behind one router:
+A Go CLI application that bundles a few unrelated feature areas behind command handlers:
 
-- **Food** — recipe/ingredient CRUD backed by Postgres
-- **Social** — Twitter home/user timeline proxy
-- **World Health Org** — child nutrition data proxy
-- **Image** — image comparison endpoint
+- **Food** — recipe/ingredient domain logic backed by Postgres
+- **Social** — Twitter integration logic
+- **World Health Org** — child nutrition data fetcher
+- **Image** — image comparison service
 - **Carp** — URL crawler (work in progress)
 
 ## Setup
 
-This repo predates Go modules — there is no `go.mod`. The repo root itself is the `GOPATH`, and the app lives at `src/main`, importing itself as `main/...`. Third-party dependencies are vendored under `src/github.com`, `src/golang.org`, `src/cloud.google.com` (gitignored), so fetch them into place before building:
+Go modules are configured with the module root in `src/main` to preserve existing import paths (`main/...`).
 
 ```bash
-export GOPATH="$(pwd)"
-go get github.com/gorilla/mux github.com/lib/pq github.com/dghubble/go-twitter/twitter cloud.google.com/go/datastore
+cd src/main
+go mod tidy
 ```
 
 ### Configuration
@@ -33,14 +33,31 @@ then point `POSTGRES_CONNECTION` at `localhost` with `sslmode=disable`.
 ## Build & run
 
 ```bash
-go build main
-go run src/main/api.go
+cd src/main
+go build ./...
+go run .
 ```
 
-The server listens on `:8080`.
+Example CLI command:
+
+```bash
+cd src/main
+go run . who-infant-nutrition USA
+```
+
+## Quality checks
+
+```bash
+cd src/main
+gofmt -w .
+go test ./...
+go vet ./...
+```
+
+CI also runs `staticcheck` and `govulncheck` on every push and pull request.
 
 ## Debugging (macOS)
 
 Install Delve by following the instructions here: https://github.com/derekparker/delve/blob/master/Documentation/installation/osx/install.md
 
-VS Code is preconfigured (`.vscode/launch.json`) to launch `src/main/api.go` under `dlv` on port 2345.
+VS Code is preconfigured (`.vscode/launch.json`) to launch `src/main/main.go` under `dlv` on port 2345.

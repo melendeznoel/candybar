@@ -4,8 +4,7 @@ import (
 	"errors"
 	"net/http"
 	"net/url"
-
-	"github.com/gorilla/mux"
+	"strings"
 )
 
 // GetQueryParam returns parameter value
@@ -45,7 +44,22 @@ func GetParamsFromQuery(url *url.URL, key string) (result []string, found bool) 
 }
 
 func RouteParam(r *http.Request, key string) string {
-	vars := mux.Vars(r)
+	if value := r.URL.Query().Get(key); value != "" {
+		return value
+	}
 
-	return vars[key]
+	segments := strings.Split(strings.Trim(r.URL.Path, "/"), "/")
+
+	for i := 0; i < len(segments)-1; i++ {
+		switch segments[i] {
+		case "recipes", "ingredients":
+			return segments[i+1]
+		}
+	}
+
+	if len(segments) > 0 {
+		return segments[len(segments)-1]
+	}
+
+	return ""
 }

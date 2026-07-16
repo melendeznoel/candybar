@@ -13,9 +13,9 @@ func Db() (*sql.DB, error) {
 	// todo: add to env
 	// export POSTGRES_CONNECTION="user=[USER_NAME] password=[PASSWORD] dbname=[DATABASE_NAME] sslmode=disable
 
-	datastoreName := os.Getenv("POSTGRES_CONNECTION")
+	postgresConnection := os.Getenv("POSTGRES_CONNECTION")
 
-	if db, err := sql.Open("postgres", datastoreName); err == nil {
+	if db, err := sql.Open("postgres", postgresConnection); err == nil {
 		return db, nil
 	} else {
 		log.Printf("failed to get db instance: %v", err)
