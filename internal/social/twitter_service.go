@@ -6,7 +6,7 @@ import (
 
 	"github.com/dghubble/go-twitter/twitter"
 
-	worldHealthOrg "main/worldHealthOrg"
+	"candybar/internal/worldhealthorg"
 )
 
 func getVideoURL(t twitter.Tweet) string {
@@ -240,7 +240,7 @@ func FetchUserTimeline() (Tweets, error) {
 func RunTasks() {
 	fmt.Println("Task is being performed")
 
-	if infantNutrition, e := worldHealthOrg.FetchInfantNutrition("USA"); e == nil {
+	if infantNutrition, e := worldhealthorg.FetchInfantNutrition("USA"); e == nil {
 		fmt.Println(infantNutrition)
 	}
 }

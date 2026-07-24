@@ -6,7 +6,7 @@ import (
 	"net/url"
 	"strconv"
 
-	HttpUtilityService "main/helper"
+	"candybar/internal/helper"
 )
 
 func GetIngredients(w http.ResponseWriter, r *http.Request) {
@@ -24,7 +24,7 @@ func GetIngredients(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Headers", "Authorization")
 		return
 	} else {
-		idStr = HttpUtilityService.RouteParam(r, "id")
+		idStr = helper.RouteParam(r, "id")
 
 		if id, err = strconv.ParseInt(idStr, 10, 64); err != nil {
 			w.WriteHeader(422)

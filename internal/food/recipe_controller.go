@@ -7,7 +7,7 @@ import (
 	"net/url"
 	"strconv"
 
-	HttpUtilityService "main/helper"
+	"candybar/internal/helper"
 )
 
 func GetRecipes(w http.ResponseWriter, r *http.Request) {
@@ -112,7 +112,7 @@ func PutRecipes(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	recipeID := HttpUtilityService.RouteParam(r, "id")
+	recipeID := helper.RouteParam(r, "id")
 
 	if intID, err := strconv.ParseInt(recipeID, 10, 64); err != nil {
 		w.WriteHeader(422)

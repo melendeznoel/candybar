@@ -1,4 +1,4 @@
-package worldHealthOrg
+package worldhealthorg
 
 import (
 	"net/http"

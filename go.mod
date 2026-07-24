@@ -1,4 +1,4 @@
-module main
+module candybar
 
 go 1.26.5
 

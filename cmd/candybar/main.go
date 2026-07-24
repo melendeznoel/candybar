@@ -3,10 +3,12 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"os"
 	"strings"
 
-	WorldHealthOrg "main/worldHealthOrg"
+	"candybar/internal/media"
+	"candybar/internal/worldhealthorg"
 )
 
 func printUsage() {
@@ -15,9 +17,12 @@ func printUsage() {
 	fmt.Println("Usage:")
 	fmt.Println("  candybar help")
 	fmt.Println("  candybar who-infant-nutrition <country>")
+	fmt.Println("  candybar compare-images [file]")
 	fmt.Println("")
 	fmt.Println("Examples:")
 	fmt.Println("  candybar who-infant-nutrition USA")
+	fmt.Println("  candybar compare-images figures.json")
+	fmt.Println("  cat figures.json | candybar compare-images")
 }
 
 func main() {
@@ -42,13 +47,44 @@ func main() {
 
 		country := strings.ToUpper(strings.TrimSpace(os.Args[2]))
 
-		payload, err := WorldHealthOrg.FetchInfantNutrition(country)
+		payload, err := worldhealthorg.FetchInfantNutrition(country)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "failed to fetch infant nutrition: %v\n", err)
 			os.Exit(1)
 		}
 
 		encoded, err := json.MarshalIndent(payload, "", "  ")
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "failed to encode output: %v\n", err)
+			os.Exit(1)
+		}
+
+		fmt.Println(string(encoded))
+		return
+
+	case "compare-images":
+		var input io.Reader = os.Stdin
+
+		if len(os.Args) >= 3 && strings.TrimSpace(os.Args[2]) != "" {
+			file, err := os.Open(os.Args[2])
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "failed to open file: %v\n", err)
+				os.Exit(1)
+			}
+			defer file.Close()
+
+			input = file
+		}
+
+		var figures []media.Figure
+		if err := json.NewDecoder(input).Decode(&figures); err != nil {
+			fmt.Fprintf(os.Stderr, "failed to decode input: %v\n", err)
+			os.Exit(1)
+		}
+
+		result := media.Compare(figures)
+
+		encoded, err := json.MarshalIndent(result, "", "  ")
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "failed to encode output: %v\n", err)
 			os.Exit(1)

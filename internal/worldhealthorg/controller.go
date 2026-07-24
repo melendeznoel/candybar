@@ -1,18 +1,18 @@
-package worldHealthOrg
+package worldhealthorg
 
 import (
 	"encoding/json"
 	"net/http"
 
-	Helper "main/helper"
+	"candybar/internal/helper"
 )
 
-//GetInfantNutrition endpoint
+// GetInfantNutrition endpoint
 func GetInfantNutrition(w http.ResponseWriter, r *http.Request) {
 	// TODO: need a way to do this in one place.
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 
-	if countryName, gqe := Helper.GetQueryParam("country", r.URL); gqe == nil {
+	if countryName, gqe := helper.GetQueryParam("country", r.URL); gqe == nil {
 		if data, e := FetchInfantNutrition(countryName); e == nil {
 			json.NewEncoder(w).Encode(data)
 

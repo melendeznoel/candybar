@@ -1,4 +1,4 @@
-package worldHealthOrg
+package worldhealthorg_test
 
 import (
 	"errors"
@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"strings"
 	"testing"
+
+	. "candybar/internal/worldhealthorg"
 )
 
 type roundTripFunc func(*http.Request) (*http.Response, error)

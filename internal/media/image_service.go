@@ -9,12 +9,13 @@ import (
 	_ "image/png"
 	"io/ioutil"
 	"log"
-	UtilityService "main/helper"
 	"math"
 	"net/http"
 	"strconv"
 	"sync"
 	"time"
+
+	"candybar/internal/helper"
 )
 
 // Compare will
@@ -31,13 +32,13 @@ func Compare(images []Figure) ImageCompareResult {
 
 	defineRanks(figures)
 
-	return ImageCompareResult{ID: UtilityService.FetchNewID(), Images: figures}
+	return ImageCompareResult{ID: helper.FetchNewID(), Images: figures}
 }
 
 func readImages(figures []Figure) {
 	for idx, figure := range figures {
 		if figure.image == nil {
-			if img, err := UtilityService.ToImage(figure.Data); err == nil {
+			if img, err := helper.ToImage(figure.Data); err == nil {
 				figures[idx].image = img
 
 			} else {
@@ -125,7 +126,7 @@ func getImages(figures []Figure) []Figure {
 					log.Fatal(err)
 
 				} else {
-					figures[i].ID = UtilityService.FetchNewID()
+					figures[i].ID = helper.FetchNewID()
 					figures[i].Data = body
 					figures[i].Type = res.Header.Get("Content-Type")
 					figures[i].image = nil
@@ -169,7 +170,7 @@ func buildRelatives(figures []Figure) {
 			for idx := range figures {
 				if figures[idx].ID != figures[entityIdx].ID && !isRelated(figures[idx].ID, figures[entityIdx]) {
 					if figures[idx].image == nil {
-						if img, err := UtilityService.ToImage(figures[idx].Data); err == nil {
+						if img, err := helper.ToImage(figures[idx].Data); err == nil {
 							figures[idx].image = img
 
 						} else {

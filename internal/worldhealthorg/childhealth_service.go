@@ -1,4 +1,4 @@
-package worldHealthOrg
+package worldhealthorg
 
 import (
 	"encoding/json"
