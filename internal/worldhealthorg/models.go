@@ -10,54 +10,35 @@ type GenericResponse struct {
 	Response      *http.Response
 }
 
-type Dataset struct {
-	Label   string
-	Display string
+// GhoObservation is a single data point as returned by the GHO OData API
+// (https://www.who.int/data/gho/info/gho-odata-api), which replaced the
+// retired Athena API.
+type GhoObservation struct {
+	ID                 int     `json:"Id"`
+	IndicatorCode      string  `json:"IndicatorCode"`
+	SpatialDimType     string  `json:"SpatialDimType"`
+	SpatialDim         string  `json:"SpatialDim"`
+	ParentLocationCode string  `json:"ParentLocationCode"`
+	ParentLocation     string  `json:"ParentLocation"`
+	TimeDimType        string  `json:"TimeDimType"`
+	TimeDim            int     `json:"TimeDim"`
+	Dim1Type           string  `json:"Dim1Type"`
+	Dim1               string  `json:"Dim1"`
+	NumericValue       float64 `json:"NumericValue"`
+	Low                float64 `json:"Low"`
+	High               float64 `json:"High"`
+	Value              string  `json:"Value"`
+	Comments           string  `json:"Comments"`
+	Date               string  `json:"Date"`
+	TimeDimensionValue string  `json:"TimeDimensionValue"`
+	TimeDimensionBegin string  `json:"TimeDimensionBegin"`
+	TimeDimensionEnd   string  `json:"TimeDimensionEnd"`
 }
 
-type Attribute struct {
-	Label   string
-	Display string
-}
-
-type Code struct {
-	Label   string
-	Display string
-	Url     string
-}
-
-type Dimension struct {
-	Label     string
-	Display   string
-	IsMeasure bool
-	Code      []Code
-}
-
-type Dim struct {
-	Category string
-	Code     string
-}
-
-type Value struct {
-	Display string
-	Numeric string
-	Low     string
-	High    string
-}
-
-type Fact struct {
-	Dateset         string
-	Effectiive_Date string
-	End_Date        string
-	Pubished        bool
-	Dim             []Dim
-	Value
-}
-
+// InfantNutrition is the GHO OData API response envelope for the
+// WHOSIS_000006 indicator (infants exclusively breastfed for the first six
+// months of life).
 type InfantNutrition struct {
-	Copyright string
-	Dataset   []Dataset
-	Attribute []Attribute
-	Dimension []Dimension
-	Fact      []Fact
+	Context string           `json:"@odata.context"`
+	Value   []GhoObservation `json:"value"`
 }

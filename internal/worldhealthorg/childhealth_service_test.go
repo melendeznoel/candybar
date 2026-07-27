@@ -67,16 +67,27 @@ func TestFetchInfantNutrition(t *testing.T) {
 		{
 			name: "parses valid json payload",
 			transport: func(req *http.Request) (*http.Response, error) {
-				if !strings.Contains(req.URL.String(), "COUNTRY:MEX") {
+				if !strings.Contains(req.URL.String(), "ghoapi.azureedge.net/api/WHOSIS_000006") {
+					t.Fatalf("expected GHO OData indicator URL, got %q", req.URL.String())
+				}
+				if !strings.Contains(req.URL.String(), "SpatialDim") || !strings.Contains(req.URL.String(), "MEX") {
 					t.Fatalf("expected country filter in URL, got %q", req.URL.String())
 				}
 
 				body := `{
-					"Copyright": "WHO",
-					"Dataset": [{"Label": "WHS_PBR", "Display": "Dataset Display"}],
-					"Attribute": [],
-					"Dimension": [],
-					"Fact": []
+					"@odata.context": "https://ghoapi.azureedge.net/api/$metadata#WHOSIS_000006",
+					"value": [{
+						"Id": 1888461,
+						"IndicatorCode": "WHOSIS_000006",
+						"SpatialDimType": "COUNTRY",
+						"SpatialDim": "MEX",
+						"TimeDimType": "YEAR",
+						"TimeDim": 2012,
+						"NumericValue": 14.4,
+						"Low": 11.5,
+						"High": 17.3,
+						"Value": "14.4 [11.5-17.3]"
+					}]
 				}`
 
 				return &http.Response{
@@ -90,19 +101,19 @@ func TestFetchInfantNutrition(t *testing.T) {
 				if got == nil {
 					t.Fatalf("expected non-nil result")
 				}
-				if got.Copyright != "WHO" {
-					t.Fatalf("expected Copyright to be WHO, got %q", got.Copyright)
+				if len(got.Value) != 1 {
+					t.Fatalf("expected 1 observation, got %d", len(got.Value))
 				}
-				if len(got.Dataset) != 1 {
-					t.Fatalf("expected 1 dataset, got %d", len(got.Dataset))
+				if got.Value[0].SpatialDim != "MEX" {
+					t.Fatalf("unexpected SpatialDim: %q", got.Value[0].SpatialDim)
 				}
-				if got.Dataset[0].Label != "WHS_PBR" {
-					t.Fatalf("unexpected dataset label: %q", got.Dataset[0].Label)
+				if got.Value[0].NumericValue != 14.4 {
+					t.Fatalf("unexpected NumericValue: %v", got.Value[0].NumericValue)
 				}
 			},
 		},
 		{
-			name: "invalid json returns zero value without error",
+			name: "invalid json returns unmarshal error",
 			transport: func(req *http.Request) (*http.Response, error) {
 				return &http.Response{
 					StatusCode: http.StatusOK,
@@ -111,14 +122,7 @@ func TestFetchInfantNutrition(t *testing.T) {
 				}, nil
 			},
 			country: "MEX",
-			assertions: func(t *testing.T, got *InfantNutrition) {
-				if got == nil {
-					t.Fatalf("expected non-nil result")
-				}
-				if got.Copyright != "" || len(got.Dataset) != 0 {
-					t.Fatalf("expected zero-value result when unmarshal fails, got %+v", got)
-				}
-			},
+			wantErr: "invalid character 'i' looking for beginning of object key string",
 		},
 	}
 

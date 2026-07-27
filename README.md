@@ -3,7 +3,6 @@
 A Go CLI application that bundles a few unrelated feature areas behind command handlers:
 
 - **Food** — recipe/ingredient domain logic backed by Postgres
-- **Social** — Twitter integration logic
 - **World Health Org** — child nutrition data fetcher
 - **Image** — image comparison service
 - **Carp** — URL crawler (work in progress)
@@ -16,7 +15,6 @@ go mod tidy
 
 ### Configuration
 
-- `config.json` — Twitter API credentials (`ConsumerKey`, `ConsumerSecret`, `AccessToken`, etc.). Fill in the `<ADD>` placeholders.
 - `app.yaml` — App Engine flex config. Set `POSTGRES_CONNECTION` and `cloud_sql_instances` for your environment.
 
 For local Postgres access via Cloud SQL, run the proxy (see `.vscode/tasks.json`):
