@@ -42,3 +42,10 @@ type InfantNutrition struct {
 	Context string           `json:"@odata.context"`
 	Value   []GhoObservation `json:"value"`
 }
+
+// InfantDeaths is the GHO OData API response envelope for the CM_02
+// indicator (number of infant deaths).
+type InfantDeaths struct {
+	Context string           `json:"@odata.context"`
+	Value   []GhoObservation `json:"value"`
+}
