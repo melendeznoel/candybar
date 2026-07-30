@@ -2,7 +2,7 @@
 
 A Go CLI application that bundles a few unrelated feature areas behind command handlers:
 
-- **Food** — recipe/ingredient domain logic backed by Postgres
+- **Food** — recipe/ingredient domain logic backed by Postgres, plus an openFDA food-recall lookup
 - **World Health Org** — child nutrition data fetcher
 - **Image** — image comparison service
 - **Carp** — URL crawler (work in progress)
@@ -32,10 +32,11 @@ go build ./...
 go run ./cmd/candybar
 ```
 
-Example CLI command:
+Example CLI commands:
 
 ```bash
 go run ./cmd/candybar who-infant-nutrition USA
+go run ./cmd/candybar food-recalls peanut butter
 ```
 
 ## Quality checks
