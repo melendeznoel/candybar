@@ -17,6 +17,8 @@ const openFDAFoodEnforcementURL = "https://api.fda.gov/food/enforcement.json"
 func FetchRecallsByProductDescription(productDescription string) (*RecallResponse, error) {
 	query := url.Values{}
 	query.Set("search", fmt.Sprintf("product_description:%s", productDescription))
+	query.Set("limit", "100")
+	query.Set("skip", "0")
 
 	reqURL := openFDAFoodEnforcementURL + "?" + query.Encode()
 
