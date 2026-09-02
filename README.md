@@ -39,6 +39,17 @@ go run ./cmd/candybar who-infant-nutrition USA
 go run ./cmd/candybar food-recalls peanut butter
 ```
 
+## Install
+```bash
+go install ./cmd/candybar
+```
+
+Example CLI commands:
+
+```bash
+candybar food-recalls peanuts
+```
+
 ## Quality checks
 
 ```bash

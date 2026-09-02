@@ -13,10 +13,11 @@ import (
 const openFDAFoodEnforcementURL = "https://api.fda.gov/food/enforcement.json"
 
 // FetchRecallsByProductDescription returns openFDA food enforcement records
-// whose product_description matches the given search term.
+// whose product_description matches the given search term, restricted to
+// recalls that are still active (status:Ongoing).
 func FetchRecallsByProductDescription(productDescription string) (*RecallResponse, error) {
 	query := url.Values{}
-	query.Set("search", fmt.Sprintf("product_description:%s", productDescription))
+	query.Set("search", fmt.Sprintf("product_description:%s AND status:Ongoing", productDescription))
 	query.Set("limit", "100")
 	query.Set("skip", "0")
 
