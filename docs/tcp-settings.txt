@@ -1,1 +1,0 @@
-lsof -i tcp:8008 | grep LISTEN | awk '{print $2}' | xargs kill

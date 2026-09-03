@@ -18,7 +18,7 @@ go build ./...
 go run ./cmd/candybar help
 ```
 
-The entry point is `cmd/candybar/main.go`; the VS Code debug config (`.vscode/launch.json`) launches it directly with `dlv` on port 2345 (see `docs/delve-settings.txt`).
+The entry point is `cmd/candybar/main.go`; the VS Code debug config (`.vscode/launch.json`) launches it directly with `dlv` on port 2345.
 
 There is a starter test suite in `internal/worldhealthorg` and CI runs `gofmt`, `go test`, `go vet`, `staticcheck`, and `govulncheck`.
 
