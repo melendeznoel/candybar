@@ -1,4 +1,4 @@
-package helper
+package communication
 
 import (
 	"errors"
@@ -7,7 +7,21 @@ import (
 	"net/url"
 	"strings"
 	"time"
+
+	"golang.org/x/net/html"
 )
+
+func scrapeHref(t html.Token) (ok bool, href string) {
+	for _, a := range t.Attr {
+		if a.Key == "href" {
+			href = a.Val
+
+			ok = true
+		}
+	}
+
+	return
+}
 
 // Logger will log a request info
 func Logger(handler http.Handler, name string) http.Handler {
