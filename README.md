@@ -6,7 +6,7 @@ A Go CLI application that bundles a few unrelated feature areas behind command h
 - **World Health Org** — child nutrition and infant mortality data fetcher
 - **Image** — image comparison service
 
-`internal/carp` (a URL crawler) and the Postgres-backed recipe/ingredient logic in `internal/food` are present in the codebase but not yet wired up to a CLI command.
+`internal/communication` (a URL crawler/scraper) and the Postgres-backed recipe/ingredient logic in `internal/food` are present in the codebase but not yet wired up to a CLI command.
 
 ## Setup
 
