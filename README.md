@@ -2,10 +2,11 @@
 
 A Go CLI application that bundles a few unrelated feature areas behind command handlers:
 
-- **Food** — recipe/ingredient domain logic backed by Postgres, plus an openFDA food-recall lookup
-- **World Health Org** — child nutrition data fetcher
+- **Food** — openFDA food-recall lookup
+- **World Health Org** — child nutrition and infant mortality data fetcher
 - **Image** — image comparison service
-- **Carp** — URL crawler (work in progress)
+
+`internal/communication` (a URL crawler/scraper) and the Postgres-backed recipe/ingredient logic in `internal/food` are present in the codebase but not yet wired up to a CLI command.
 
 ## Setup
 
@@ -13,38 +14,28 @@ A Go CLI application that bundles a few unrelated feature areas behind command h
 go mod tidy
 ```
 
-### Configuration
-
-- `app.yaml` — App Engine flex config. Set `POSTGRES_CONNECTION` and `cloud_sql_instances` for your environment.
-
-For local Postgres access via Cloud SQL, run the proxy (see `.vscode/tasks.json`):
-
-```bash
-cloud_sql_proxy -instances=candybar-208003:us-central1:food=tcp:5432
-```
-
-then point `POSTGRES_CONNECTION` at `localhost` with `sslmode=disable`.
-
-## Build & run
+## Build & Run
 
 ```bash
 go build ./...
-go run ./cmd/candybar
+go run ./cmd/candybar help
 ```
 
-Example CLI commands:
+Available commands:
 
 ```bash
 go run ./cmd/candybar who-infant-nutrition USA
+go run ./cmd/candybar who-infant-deaths USA
 go run ./cmd/candybar food-recalls peanut butter
+go run ./cmd/candybar compare-images figures.json
+cat figures.json | go run ./cmd/candybar compare-images
 ```
 
-## Install
+## Install & Invoke
+
 ```bash
 go install ./cmd/candybar
 ```
-
-Example CLI commands:
 
 ```bash
 candybar food-recalls peanuts

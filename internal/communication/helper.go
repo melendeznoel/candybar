@@ -1,11 +1,38 @@
-package helper
+package communication
 
 import (
 	"errors"
+	"log"
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
+
+	"golang.org/x/net/html"
 )
+
+func scrapeHref(t html.Token) (ok bool, href string) {
+	for _, a := range t.Attr {
+		if a.Key == "href" {
+			href = a.Val
+
+			ok = true
+		}
+	}
+
+	return
+}
+
+// Logger will log a request info
+func Logger(handler http.Handler, name string) http.Handler {
+	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
+		start := time.Now()
+
+		handler.ServeHTTP(rw, r)
+
+		log.Printf("%s\t%s\t%s\t%s", r.Method, r.RequestURI, name, time.Since(start))
+	})
+}
 
 // GetQueryParam returns parameter value
 func GetQueryParam(paramKey string, urlVal *url.URL) (string, error) {
