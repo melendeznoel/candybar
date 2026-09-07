@@ -3,6 +3,7 @@
 A Go CLI application that bundles a few unrelated feature areas behind command handlers:
 
 - **Food** — openFDA food-recall lookup
+- **Drug** — openFDA drug-recall lookup
 - **World Health Org** — child nutrition and infant mortality data fetcher
 - **Image** — image comparison service
 
@@ -27,6 +28,7 @@ Available commands:
 go run ./cmd/candybar who-infant-nutrition USA
 go run ./cmd/candybar who-infant-deaths USA
 go run ./cmd/candybar food-recalls peanut butter
+go run ./cmd/candybar drug-recalls ibuprofen
 go run ./cmd/candybar compare-images figures.json
 cat figures.json | go run ./cmd/candybar compare-images
 ```

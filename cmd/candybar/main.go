@@ -7,6 +7,7 @@ import (
 	"os"
 	"strings"
 
+	"candybar/internal/drug"
 	"candybar/internal/food"
 	"candybar/internal/media"
 	"candybar/internal/worldhealthorg"
@@ -20,12 +21,14 @@ func printUsage() {
 	fmt.Println("  candybar who-infant-nutrition <country>")
 	fmt.Println("  candybar who-infant-deaths <country>")
 	fmt.Println("  candybar food-recalls <product description>")
+	fmt.Println("  candybar drug-recalls <product description>")
 	fmt.Println("  candybar compare-images [file]")
 	fmt.Println("")
 	fmt.Println("Examples:")
 	fmt.Println("  candybar who-infant-nutrition USA")
 	fmt.Println("  candybar who-infant-deaths USA")
 	fmt.Println("  candybar food-recalls peanut")
+	fmt.Println("  candybar drug-recalls ibuprofen")
 	fmt.Println("  candybar compare-images figures.json")
 	fmt.Println("  cat figures.json | candybar compare-images")
 }
@@ -103,6 +106,30 @@ func main() {
 		payload, err := food.FetchRecallsByProductDescription(productDescription)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "failed to fetch food recalls: %v\n", err)
+			os.Exit(1)
+		}
+
+		encoded, err := json.MarshalIndent(payload, "", "  ")
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "failed to encode output: %v\n", err)
+			os.Exit(1)
+		}
+
+		fmt.Println(string(encoded))
+		return
+
+	case "drug-recalls":
+		if len(os.Args) < 3 || strings.TrimSpace(strings.Join(os.Args[2:], " ")) == "" {
+			fmt.Fprintln(os.Stderr, "product description argument is required")
+			printUsage()
+			os.Exit(1)
+		}
+
+		productDescription := strings.TrimSpace(strings.Join(os.Args[2:], " "))
+
+		payload, err := drug.FetchRecallsByProductDescription(productDescription)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "failed to fetch drug recalls: %v\n", err)
 			os.Exit(1)
 		}
 
